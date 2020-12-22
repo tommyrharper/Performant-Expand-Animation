@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expandable Animation</title>
+
+<style>
+html, body {
+  background: #666;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.menu {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: top left;
+  overflow: hidden;
+  border-radius: 3px;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.4);
+  background: #FFF;
+  will-change: transform;
+}
+
+.menu__contents {
+  transform-origin: top left;
+  will-change: transform;
+}
+
+.menu__toggle {
+  text-align: left;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.menu__title {
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+  display: inline-block;
+  padding: 8px 12px;
+}
+
+.menu__items {
+  position: relative;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: #FFF;
+  z-index: 1;
+}
+
+.menu__item {
+  padding: 8px 12px;
+  border-top: 1px solid #DDD;
+}
+
+.menu--active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu--expanded {
+  animation-name: menuExpandAnimation;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+}
+
+.menu__contents--expanded {
+  animation-name: menuExpandContentsAnimation;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+}
+
+.menu--collapsed {
+  animation-name: menuCollapseAnimation;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+}
+
+.menu__contents--collapsed {
+  animation-name: menuCollapseContentsAnimation;
+  animation-duration: 0.2s;
+  animation-timing-function: linear;
+}
+
+
+
+.mockSkill {
+  text-align: center;
+  color: black;
+  height: 70px;
+  width: 70px;
+  border-radius: 5px;
+  margin: 3px;
+  margin-bottom: 10px;
+  box-shadow: 0px 1px 15px -7px rgba(0,0,0,0.5);
+  background-color: white;
+}
+
+.mockSkillEmpty {
+  /* background-color: white; */
+  height: 70px;
+  width: 70px;
+  border-radius: 5px;
+  margin: 3px;
+  margin-bottom: 10px;
+}
+
+.row {
+  /* background-color: white; */
+  display: flex;
+  justify-content: space-between;
+}
+
+.more {
+  /* background-color: white; */
+  margin-top: 10px;
+  color: #2C88D9;
+  width: 100%;
+  text-align: center;
+}
+
+.more:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.container {
+  width: 500px;
+  margin-top: 200px;
+  /* overflow: hidden; */
+}
+</style>
+
+</head>
+<body>
+  <h1>Expandable Animation</h1>
+  <nav class="menu js-menu">
+    <div class="menu__contents js-menu-contents">
+      <div class="menu__toggle js-menu-toggle">
+        <h1 class="menu__title js-menu-title">More</h1>
+      </div>
+      <div class="menu__items">
+        <div class="menu__item row">
+          <div class="mockSkill">Animator</div>
+          <div class="mockSkill">Animator</div>
+          <div class="mockSkill">Animator</div>
+          <div class="mockSkill">Animator</div>
+          <div class="mockSkill">Animator</div>
+        </div>
+        <div class="menu__item row">
+          <div class="mockSkill">Animator</div>
+          <div class="mockSkill">Animator</div>
+          <div class="mockSkill">Animator</div>
+          <div class="mockSkill">Animator</div>
+          <div class="mockSkill">Animator</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- <div class="menu js-menu container">
+    <div class="menu__contents js-menu-contents innerContainer">
+
+      <button
+        class="menu__toggle js-menu-toggle more"
+        onClick="">
+        <h1 class="menu__title js-menu-title">More</h1>
+      </button>
+
+      <div class="row row-1 menu__items">
+        <div class="mockSkill menu__item">
+          Animator
+        </div>
+        <div class="mockSkill menu__item">
+          Animator
+        </div>
+        <div class="mockSkill menu__item">
+          Animator
+        </div>
+        <div class="mockSkill menu__item">
+          Animator
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="mockSkill menu__item">
+          Animator
+        </div>
+        <div class="mockSkill menu__item">
+          Animator
+        </div>
+        <div class="mockSkill menu__item">
+          Animator
+        </div>
+        <div class="mockSkill menu__item">
+          Animator
+        </div>
+      </div>
+
+    </div>
+  </div> -->
+
+  <!-- <div class="container">
+    <div class="innerContainer">
+      <div class="row row-1">
+        <div class="mockSkill">
+          Animator
+        </div>
+        <div class="mockSkill">
+          Animator
+        </div>
+        <div class="mockSkill">
+          Animator
+        </div>
+        <div class="mockSkill">
+          Animator
+        </div>
+      </div>
+      <div class="row">
+        <div class="mockSkill">
+          Animator
+        </div>
+        <div class="mockSkill">
+          Animator
+        </div>
+        <div class="mockSkill">
+          Animator
+        </div>
+        <div class="mockSkill">
+          Animator
+        </div>
+      </div>
+
+      <button
+        class="more"
+        onClick="">
+        More
+      </button>
+    </div>
+  </div> -->
+
+</body>
+
+<script>
+'use strict';
+
+class Skills {
+  constructor () {
+    this._menu = document.querySelector('.container');
+    this._menuContents = this._menu.querySelector('.innerContainer');
+    this._menuToggleButton = this._menu.querySelector('.more');
+    this._menuTitle = this._menu.querySelector('.row-1');
+
+    this._expanded = true;
+    this._animate = false;
+    this._collapsed;
+
+    this.expand = this.expand.bind(this);
+    this.collapse = this.collapse.bind(this);
+    this.toggle = this.toggle.bind(this);
+
+    this._calculateScales();
+    this._createEaseAnimations();
+    this._addEventListeners();
+
+    this.collapse();
+    this.activate();
+  }
+
+  activate () {
+    this._menu.classList.add('menu--active');
+    this._animate = true;
+  }
+
+  collapse () {
+    if (!this._expanded) {
+      return;
+    }
+    this._expanded = false;
+
+    const {x, y} = this._collapsed;
+    const invX = 1 / x;
+    const invY = 1 / y;
+
+    this._menu.style.transform = `scale(${x}, ${y})`;
+    this._menuContents.style.transform = `scale(${invX}, ${invY})`;
+    
+    if (!this._animate) {
+      return;
+    }
+
+    this._applyAnimation({expand: false});
+  }
+
+  expand () {
+    if (this._expanded) {
+      return;
+    }
+    this._expanded = true;
+
+    this._menu.style.transform = `scale(1, 1)`;
+    this._menuContents.style.transform = `scale(1, 1)`;
+      
+    if (!this._animate) {
+      return;
+    }
+
+    this._applyAnimation({expand: true});
+  }
+
+  toggle () {
+    if (this._expanded) {
+      this.collapse();
+      return;
+    }
+
+    this.expand();
+  }
+
+  _addEventListeners () {
+    this._menuToggleButton.addEventListener('click', this.toggle);
+  }
+
+  _applyAnimation ({expand}=opts) {
+    this._menu.classList.remove('menu--expanded');
+    this._menu.classList.remove('menu--collapsed');
+    this._menuContents.classList.remove('menu__contents--expanded');
+    this._menuContents.classList.remove('menu__contents--collapsed');
+
+    // Force a recalc styles here so the classes take hold.
+    window.getComputedStyle(this._menu).transform;
+
+    if (expand) {
+      this._menu.classList.add('menu--expanded');
+      this._menuContents.classList.add('menu__contents--expanded');
+      return;
+    }
+
+    this._menu.classList.add('menu--collapsed');
+    this._menuContents.classList.add('menu__contents--collapsed');
+  }
+
+  _calculateScales () {
+    const collapsed = this._menuTitle.getBoundingClientRect();
+    const expanded = this._menu.getBoundingClientRect();
+
+    this._collapsed = {
+      x: collapsed.width / expanded.width,
+      y: collapsed.height / expanded.height
+    }
+  }
+
+  _createEaseAnimations () {
+    let menuEase = document.querySelector('.menu-ease');
+    if (menuEase) {
+      return menuEase;
+    }
+
+    menuEase = document.createElement('style');
+    menuEase.classList.add('menu-ease');
+
+    const menuExpandAnimation = [];
+    const menuExpandContentsAnimation = [];
+    const menuCollapseAnimation = [];
+    const menuCollapseContentsAnimation = [];
+    for (let i = 0; i <= 100; i++) {
+      const step = this._ease(i/100);
+      const startX = this._collapsed.x;
+      const startY = this._collapsed.y;
+      const endX = 1;
+      const endY = 1;
+
+      // Expand animation.
+      this._append({
+        i,
+        step,
+        startX: this._collapsed.x,
+        startY: this._collapsed.y,
+        endX: 1,
+        endY: 1,
+        outerAnimation: menuExpandAnimation,
+        innerAnimation: menuExpandContentsAnimation
+      });
+
+      // Collapse animation.
+      this._append({
+        i,
+        step,
+        startX: 1,
+        startY: 1,
+        endX: this._collapsed.x,
+        endY: this._collapsed.y,
+        outerAnimation: menuCollapseAnimation,
+        innerAnimation: menuCollapseContentsAnimation
+      });
+    }
+
+    menuEase.textContent = `
+      @keyframes menuExpandAnimation {
+        ${menuExpandAnimation.join('')}
+      }
+
+      @keyframes menuExpandContentsAnimation {
+        ${menuExpandContentsAnimation.join('')}
+      }
+      
+      @keyframes menuCollapseAnimation {
+        ${menuCollapseAnimation.join('')}
+      }
+
+      @keyframes menuCollapseContentsAnimation {
+        ${menuCollapseContentsAnimation.join('')}
+      }`;
+
+    document.head.appendChild(menuEase);
+    return menuEase;
+  }
+
+  _append ({
+        i,
+        step,
+        startX, 
+        startY, 
+        endX, 
+        endY, 
+        outerAnimation, 
+        innerAnimation}=opts) {
+
+    const xScale = startX + (endX - startX) * step;
+    const yScale = startY + (endY - startY) * step;
+
+    const invScaleX = 1 / xScale;
+    const invScaleY = 1 / yScale;
+
+    outerAnimation.push(`
+      ${i}% {
+        transform: scale(${xScale}, ${yScale});
+      }`);
+
+    innerAnimation.push(`
+      ${i}% {
+        transform: scale(${invScaleX}, ${invScaleY});
+      }`);
+  }
+
+  _clamp (value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  _ease (v, pow=4) {
+    v = this._clamp(v, 0, 1);
+
+    return 1 - Math.pow(1 - v, pow);
+  }
+}
+
+new Skills()
+</script>
+
+<script>
+'use strict';
+
+class Menu {
+  constructor () {
+    this._menu = document.querySelector('.js-menu');
+    this._menuContents = this._menu.querySelector('.js-menu-contents');
+    this._menuToggleButton = this._menu.querySelector('.js-menu-toggle');
+    this._menuTitle = this._menu.querySelector('.js-menu-title');
+
+    this._expanded = true;
+    this._animate = false;
+    this._collapsed;
+
+    this.expand = this.expand.bind(this);
+    this.collapse = this.collapse.bind(this);
+    this.toggle = this.toggle.bind(this);
+
+    this._calculateScales();
+    this._createEaseAnimations();
+    this._addEventListeners();
+
+    this.collapse();
+    this.activate();
+  }
+
+  activate () {
+    this._menu.classList.add('menu--active');
+    this._animate = true;
+  }
+
+  collapse () {
+    if (!this._expanded) {
+      return;
+    }
+    this._expanded = false;
+
+    const {x, y} = this._collapsed;
+    const invX = 1 / x;
+    const invY = 1 / y;
+
+    this._menu.style.transform = `scale(${x}, ${y})`;
+    this._menuContents.style.transform = `scale(${invX}, ${invY})`;
+    
+    if (!this._animate) {
+      return;
+    }
+
+    this._applyAnimation({expand: false});
+  }
+
+  expand () {
+    if (this._expanded) {
+      return;
+    }
+    this._expanded = true;
+
+    this._menu.style.transform = `scale(1, 1)`;
+    this._menuContents.style.transform = `scale(1, 1)`;
+      
+    if (!this._animate) {
+      return;
+    }
+
+    this._applyAnimation({expand: true});
+  }
+
+  toggle () {
+    if (this._expanded) {
+      this.collapse();
+      return;
+    }
+
+    this.expand();
+  }
+
+  _addEventListeners () {
+    this._menuToggleButton.addEventListener('click', this.toggle);
+  }
+
+  _applyAnimation ({expand}=opts) {
+    this._menu.classList.remove('menu--expanded');
+    this._menu.classList.remove('menu--collapsed');
+    this._menuContents.classList.remove('menu__contents--expanded');
+    this._menuContents.classList.remove('menu__contents--collapsed');
+
+    // Force a recalc styles here so the classes take hold.
+    window.getComputedStyle(this._menu).transform;
+
+    if (expand) {
+      this._menu.classList.add('menu--expanded');
+      this._menuContents.classList.add('menu__contents--expanded');
+      return;
+    }
+
+    this._menu.classList.add('menu--collapsed');
+    this._menuContents.classList.add('menu__contents--collapsed');
+  }
+
+  _calculateScales () {
+    const collapsed = this._menuTitle.getBoundingClientRect();
+    const expanded = this._menu.getBoundingClientRect();
+
+    this._collapsed = {
+      x: collapsed.width / expanded.width,
+      y: collapsed.height / expanded.height
+    }
+  }
+
+  _createEaseAnimations () {
+    let menuEase = document.querySelector('.menu-ease');
+    if (menuEase) {
+      return menuEase;
+    }
+
+    menuEase = document.createElement('style');
+    menuEase.classList.add('menu-ease');
+
+    const menuExpandAnimation = [];
+    const menuExpandContentsAnimation = [];
+    const menuCollapseAnimation = [];
+    const menuCollapseContentsAnimation = [];
+    for (let i = 0; i <= 100; i++) {
+      const step = this._ease(i/100);
+      const startX = this._collapsed.x;
+      const startY = this._collapsed.y;
+      const endX = 1;
+      const endY = 1;
+
+      // Expand animation.
+      this._append({
+        i,
+        step,
+        startX: this._collapsed.x,
+        startY: this._collapsed.y,
+        endX: 1,
+        endY: 1,
+        outerAnimation: menuExpandAnimation,
+        innerAnimation: menuExpandContentsAnimation
+      });
+
+      // Collapse animation.
+      this._append({
+        i,
+        step,
+        startX: 1,
+        startY: 1,
+        endX: this._collapsed.x,
+        endY: this._collapsed.y,
+        outerAnimation: menuCollapseAnimation,
+        innerAnimation: menuCollapseContentsAnimation
+      });
+    }
+
+    menuEase.textContent = `
+      @keyframes menuExpandAnimation {
+        ${menuExpandAnimation.join('')}
+      }
+
+      @keyframes menuExpandContentsAnimation {
+        ${menuExpandContentsAnimation.join('')}
+      }
+      
+      @keyframes menuCollapseAnimation {
+        ${menuCollapseAnimation.join('')}
+      }
+
+      @keyframes menuCollapseContentsAnimation {
+        ${menuCollapseContentsAnimation.join('')}
+      }`;
+
+    document.head.appendChild(menuEase);
+    return menuEase;
+  }
+
+  _append ({
+        i,
+        step,
+        startX, 
+        startY, 
+        endX, 
+        endY, 
+        outerAnimation, 
+        innerAnimation}=opts) {
+
+    const xScale = startX + (endX - startX) * step;
+    const yScale = startY + (endY - startY) * step;
+
+    const invScaleX = 1 / xScale;
+    const invScaleY = 1 / yScale;
+
+    outerAnimation.push(`
+      ${i}% {
+        transform: scale(${xScale}, ${yScale});
+      }`);
+
+    innerAnimation.push(`
+      ${i}% {
+        transform: scale(${invScaleX}, ${invScaleY});
+      }`);
+  }
+
+  _clamp (value, min, max) {
+    return Math.max(min, Math.min(max, value));
+  }
+
+  _ease (v, pow=4) {
+    v = this._clamp(v, 0, 1);
+
+    return 1 - Math.pow(1 - v, pow);
+  }
+}
+
+new Menu()
+</script>
+</html>
