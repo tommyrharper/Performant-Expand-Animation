@@ -104,7 +104,6 @@ html, body {
 }
 
 .mockSkillEmpty {
-  /* background-color: white; */
   height: 70px;
   width: 70px;
   border-radius: 5px;
@@ -113,13 +112,11 @@ html, body {
 }
 
 .row {
-  /* background-color: white; */
   display: flex;
   justify-content: space-between;
 }
 
 .more {
-  /* background-color: white; */
   margin-top: 10px;
   color: #2C88D9;
   width: 100%;
@@ -131,10 +128,21 @@ html, body {
   cursor: pointer;
 }
 
+.less {
+  margin-top: 10px;
+  color: #2C88D9;
+  width: 100%;
+  text-align: center;
+}
+
+.less:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .container {
   width: 500px;
   margin-top: 200px;
-  /* overflow: hidden; */
 }
 </style>
 
@@ -142,12 +150,10 @@ html, body {
 <body>
   <h1>Expandable Animation</h1>
   <nav class="menu js-menu">
-    <div class="menu__contents js-menu-contents">
-      <!-- <div class="menu__toggle js-menu-toggle">
-        <h1 class="menu__title js-menu-title">More</h1>
-      </div> -->
 
-      <div class="menu__toggle">
+    <div class="menu__contents js-menu-contents">
+
+      <div>
         <div class="menu__title js-menu-title">
           <div class="row">
             <div class="mockSkill">Animator</div>
@@ -180,13 +186,15 @@ html, body {
           <div class="mockSkill">Animator</div>
         </div>
         <div
-          class="more"
+          class="less js-menu-toggle"
           onClick="">
           Less
         </div>
       </div>
+      
 
     </div>
+
   </nav>
 
   <!-- <div class="menu js-menu container">
